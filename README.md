@@ -1,6 +1,8 @@
 # BlackJack
 > Projet Java STRI 2017/2018
 
+![alt text](http://black-jack-en-ligne.net/wp-content/uploads/2016/10/blackjack-histoire.jpg)
+
 ### Version 1 : Casino et Joueurs
 Dans cette première version, une seule partie est organisée à la fois. 1 serveur central est chargé d’héberger et de synchroniser le jeu des clients. Ce serveur central jouera le rôle de croupier (qui distribue les cartes, joue pour la banque et détermine le gagnant). Les clients doivent disposer de leur côté d’une application permettant de jouer.
 
