@@ -10,7 +10,7 @@ public class Serveur {
 		ServerSocket socket;
 		try {
 			socket = new ServerSocket(2009);
-			Thread t = new Thread(new Accepter_clients(socket));
+			Thread t = new Thread(new Accepter_clients(socket, 2));
 			t.start();
 			System.out.println("Le Casino (serveur centrale) est prêt !");
 		

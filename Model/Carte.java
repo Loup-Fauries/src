@@ -1,6 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
 
 public class Carte {
 	private boolean visible = false;
@@ -61,11 +60,11 @@ public class Carte {
 	}
 	
 	public int getValeurAs(int total) {
-		if(estVisible()){
+		if(estVisible() && Face.AS.equals(face)){
 			if(total<10){
-				return 11;
+				return valeur2;
 			}
-			return 1;
+			return valeur1;
 		}
 		return 0;
 	}

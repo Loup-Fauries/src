@@ -1,13 +1,11 @@
 package Model;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 
 public class Jeudecarte {
 
 	private LinkedList<Carte> carteEnJeu;
-	private boolean as = false;
 	
 	public Jeudecarte(){
 		this.carteEnJeu = new LinkedList<Carte>();
@@ -33,20 +31,16 @@ public class Jeudecarte {
 	
 	public void addCarte(Carte addCarte){
 		carteEnJeu.add(addCarte);
-		if(Face.AS.equals(addCarte.getFace()))
-			as = true;
 	}
 	
-	public void tirer(Jeudecarte paquetutiliser){
-		carteEnJeu.add(paquetutiliser.getCarte(0));
-		paquetutiliser.removeCarte(0);
+	public Carte tirer(){
+		return carteEnJeu.remove(0);
 	}
 	
-	public void tirerVisible(Jeudecarte paquetutiliser) {
-		carteEnJeu.add(paquetutiliser.getCarte(0));
-		Carte carte = carteEnJeu.getLast();
+	public Carte tirerVisible() {
+		Carte carte = tirer();
 		carte.setVisible(true);
-		paquetutiliser.removeCarte(0);
+		return carte;
 	}
 	
 	public String toString(){
