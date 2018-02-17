@@ -24,7 +24,7 @@ public class Accepter_clients implements Runnable {
     			try {
     				socket = serverSocket.accept();
     				sockets.add(socket);
-        			System.out.println("Le client numéro "+i+ " est connecté !");
+        			System.out.println(" Un nouveau client s'est connecté !");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -33,11 +33,14 @@ public class Accepter_clients implements Runnable {
 		
 		
 		public void run() {
+			int i=1;
         	while(true) {
+    			System.out.println("\nTable n°"+i+":");
         		attendreConnexions();
-        		
+
         		Croupier tCroupier = new Croupier(sockets);
         		tCroupier.start();
+        		i++;
         	}
 		}
 }

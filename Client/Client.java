@@ -14,7 +14,7 @@ public class Client {
 	    String retour, reponse;
 	    boolean coucher = false;
 	    
-		System.out.println("Bonjour,\n Bienvenue au casino.\n Voulez vous commencez une partie de BlackJack ? (appuyer sur une touche pour commencer)\n");									//Action
+		System.out.println("Bonjour,\n Bienvenue au casino.\n Votre partie va bientôt commencer.");									//Action
 
 	    try {
 	    	socket = new Socket("localhost",2009);
@@ -29,7 +29,7 @@ public class Client {
 		    }
 		    while(!coucher) {
 		    	retour = fluxEntreeSocket.readLine();
-				System.out.println("Voici votre main:\n" +retour);
+				System.out.println("\nVoici votre main:\n" +retour);
 				retour = fluxEntreeSocket.readLine();
 				System.out.println("Voici la main de la banque:\n" +retour);
 				
@@ -39,7 +39,7 @@ public class Client {
 					break;
 				}
 				retour = fluxEntreeSocket.readLine();
-				System.out.println("C'est votre tour!");
+				System.out.println("\nC'est votre tour !");
 				System.out.println("Que voulez-vous faire, Hit (1) ou stand (2) ?");
 				reponse = fluxEntreeStandard.readLine();
 				while(!reponse.equals("1") && !reponse.equals("2")){
