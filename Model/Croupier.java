@@ -155,7 +155,7 @@ public class Croupier extends Thread{
 			}else {
 				if(joueur.blackjack() && !mainDealer.isBlackjack()) {
 					joueur.envoyer("Vous avez gagnez et fait un BlackJack.");
-				}else if(!joueur.blackjack() && !mainDealer.isBlackjack()) {
+				}else if(!joueur.blackjack() && mainDealer.isBlackjack()) {
 					joueur.envoyer("Vous avez perdu et le casino a fait un BlackJack.");
 				}else {
 					joueur.envoyer("Vous avez fait une égalité.");

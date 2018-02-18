@@ -50,9 +50,20 @@ public class Main {
 	public String toString(){
 		String listedecarte = "";
 		for(Carte carte : main){
-			listedecarte += " " + carte.toString() + " , ";
+			if(carte.equals(this.getCarte(this.tailleMain()-1)))
+				listedecarte += " " + carte.toString();
+			else
+				listedecarte += " " + carte.toString() + " , ";
 		}
 		return listedecarte;
+	}
+	
+	/**
+	 * Retourne la ième carte de la main
+	 * 
+	 */
+	public Carte getCarte(int i){
+		return main.get(i);
 	}
 	
 	/**

@@ -23,7 +23,7 @@ public class Accepter_clients implements Runnable {
 		}
 		
 		/**
-		 * Attend qu'un certains nombre de client se connecte
+		 * Attends qu'un certain nombre de clients se connectent
 		 * 
 		 */
 		private void attendreConnexions() {
