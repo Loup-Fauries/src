@@ -4,8 +4,22 @@ package Client;
 import java.io.*;
 import java.net.*;
 
+/**
+ * Classe représentant le client
+ * 
+ * @version: 1.0
+ */
 public class Client {
 
+	/**
+	 * Déroulement d'une partie coté client:
+	 * Connexion au serveur
+	 * Affichage tour par tour de la main du client et du croupier
+	 * Choix du client, Hit ou Stand
+	 * Afiichage final, Gagnant et Perdant
+	 * Déconnexion
+	 * 
+	 */
 	public static void main(String args[]){
 		Socket socket;
 		BufferedReader  fluxEntreeStandard;
@@ -40,7 +54,7 @@ public class Client {
 				}
 				retour = fluxEntreeSocket.readLine();
 				System.out.println("\nC'est votre tour !");
-				System.out.println("Que voulez-vous faire, Hit (1) ou stand (2) ?");
+				System.out.println("Que voulez-vous faire, Hit (1) ou Stand (2) ?");
 				reponse = fluxEntreeStandard.readLine();
 				while(!reponse.equals("1") && !reponse.equals("2")){
 					System.out.println("Nous voulons une valeur de 1 ou 2.\nQue voulez-vous faire, Hit (1) ou stand (2) ?");

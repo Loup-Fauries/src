@@ -6,6 +6,11 @@ import java.util.ArrayList;
 
 import Model.Croupier;
 
+/**
+ * Classe permettant la connexion d'un client(ouverture de socket...)
+ * 
+ * @version: 2.0
+ */
 public class Accepter_clients implements Runnable {
 	   private ServerSocket serverSocket;
 	   private ArrayList<Socket> sockets;
@@ -17,6 +22,10 @@ public class Accepter_clients implements Runnable {
 			 sockets = new ArrayList<Socket>(nbClientsMax);
 		}
 		
+		/**
+		 * Attend qu'un certains nombre de client se connecte
+		 * 
+		 */
 		private void attendreConnexions() {
 			sockets.clear();
 			for(int i=0; i<nbClientsMax; i++) {
@@ -31,7 +40,11 @@ public class Accepter_clients implements Runnable {
     		}
 		}
 		
-		
+		/**
+		 * Attente de joueurs puis affectation des joueurs à un croupier (table)
+		 * puis lancement de la partie
+		 * 
+		 */
 		public void run() {
 			int i=1;
         	while(true) {

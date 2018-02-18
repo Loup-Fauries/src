@@ -1,6 +1,10 @@
 package Model;
 
-
+/**
+ * Classe représentant une carte
+ * 
+ * @version: 1.0
+ */
 public class Carte {
 	private boolean visible = false;
 	private final Couleur couleur;
@@ -46,19 +50,35 @@ public class Carte {
 		}
 	}
 	
+	/**
+	 * Permet de retourner une carte
+	 * 
+	 */
 	public void setVisible(boolean v) {
 		visible = v;
 	}
 	
+	/**
+	 * Retourne true si la carte est face visible, et false sinon
+	 * 
+	 */
 	public boolean estVisible() {
 		return visible;
 	}
 	
+	/**
+	 * Retourne la valeur de la carte, seulement si la carte est visible
+	 * 
+	 */
 	public int getValeur() {
 		if(estVisible()) return valeur1;
 		return 0;
 	}
 	
+	/**
+	 * retourne la valeur de l'As
+	 * 
+	 */
 	public int getValeurAs(int total) {
 		if(estVisible() && Face.AS.equals(face)){
 			if(total<10){
@@ -69,10 +89,19 @@ public class Carte {
 		return 0;
 	}
 	
+	/**
+	 * Retourne la face(1,2,3...Valet...) de la carte
+	 * 
+	 */
 	public Face getFace(){
 		return face;
 	}
 	
+	/**
+	 * Affiche les propriétés de la carte (Face et Couleur)
+	 * Seulement si la carte est face visible, sinon affiche "Carte face cachée"
+	 * 
+	 */
 	@Override
 	public String toString() {
 		if(estVisible()) {
