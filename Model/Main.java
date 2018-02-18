@@ -14,6 +14,8 @@ public class Main {
 	/**
 	 * Ajoute une carte à la main
 	 * 
+	 * @param carte
+	 * 				Carte que l'on veut ajouter à la main du joueur
 	 */
 	public void ajouter(Carte carte) {
 		main.add(carte);
@@ -22,6 +24,7 @@ public class Main {
 	/**
 	 * Retourne la valeur de la main
 	 * 
+	 * @return un int qui correspond à la valeur de la main du joueur
 	 */
 	public int cartesValeur(){
 		int valeur = 0;
@@ -44,8 +47,9 @@ public class Main {
 	}
 	
 	/**
-	 * Forme une chaine de caractères constituée de la main d'un joueur
+	 * Forme une chaine de caractères constitués de la main d'un joueur
 	 * 
+	 * @return une chaine de caractères, constitués de la main d'un joueur
 	 */
 	public String toString(){
 		String listedecarte = "";
@@ -61,14 +65,19 @@ public class Main {
 	/**
 	 * Retourne la ième carte de la main
 	 * 
+	 * @param i
+	 * 			numéro de la carte que l'on souhaite connaitre
+	 * 
+	 * @return une instance de Carte, qui correspond à la ième carte de la main
 	 */
 	public Carte getCarte(int i){
 		return main.get(i);
 	}
 	
 	/**
-	 * Retourne le nombre de carte dans main
+	 * Retourne le nombre de cartes dans la main du joueur
 	 * 
+	 * @return un int qui représente le nombre de cartes dans la main du joueur
 	 */
 	public int tailleMain(){
 		return main.size();
@@ -89,6 +98,7 @@ public class Main {
 	/**
 	 * Retourne true si la main vaut : Blackjack
 	 * 
+	 * @return un boolean, indiquant si la main vaut Blackjack
 	 */
 	public boolean isBlackjack() {
 		return (tailleMain() == 2 && cartesValeur() == 21);

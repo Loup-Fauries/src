@@ -12,11 +12,11 @@ import java.net.*;
 public class Client {
 
 	/**
-	 * Déroulement d'une partie coté client:
+	 * Déroulement d'une partie côté client:
 	 * Connexion au serveur
 	 * Affichage tour par tour de la main du client et du croupier
 	 * Choix du client, Hit ou Stand
-	 * Afiichage final, Gagnant et Perdant
+	 * Affichage final, Gagnant et Perdant
 	 * Déconnexion
 	 * 
 	 */

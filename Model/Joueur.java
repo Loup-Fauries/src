@@ -31,6 +31,8 @@ public class Joueur extends Thread{
 	/**
 	 * Envoie d'un message au joueur
 	 * 
+	 * @param chaine
+	 * 					Correspond au message à envoyer
 	 */
 	public void envoyer(String chaine) {
 		if (fluxSortieSocket == null) {
@@ -43,6 +45,11 @@ public class Joueur extends Thread{
 		fluxSortieSocket.println(chaine);
 	}
 	
+	/**
+	 * Réception d'un message envoyé par un joueur
+	 * 
+	 * @return une chaine de caractères, correspond au message reçu
+	 */
 	public String recevoir() {
 		if (fluxEntreeSocket == null) {
 			try {
@@ -62,6 +69,8 @@ public class Joueur extends Thread{
 	/**
 	 * Ajoute une carte dans la main d'un joueur
 	 * 
+	 * @param carte
+	 * 				carte que l'on veut ajouter à la main du joueur
 	 */
 	public void ajouterCarte(Carte carte) {
 		main.ajouter(carte);
@@ -70,14 +79,16 @@ public class Joueur extends Thread{
 	/**
 	 * Affiche la main d'un joueur
 	 * 
+	 * @return une chaine de caractères constituté des cartes de la main du joueur
 	 */
 	public String afficherMain() {
 		return main.toString();
 	}
 	
 	/**
-	 * Retoure si le joueur est couché ou non
+	 * Retourne si le joueur est couché ou non
 	 * 
+	 * @return un boolean permettant de savoir si le joueur est couché
 	 */
 	public boolean estCouche() {
 		return couche;
@@ -86,6 +97,8 @@ public class Joueur extends Thread{
 	/**
 	 * Permet de coucher un joueur
 	 * 
+	 * @param b
+	 * 			Valeur à affecter à l'attribut "couche"
 	 */
 	public void setCouche(boolean b) {
 		couche = b;
@@ -94,6 +107,7 @@ public class Joueur extends Thread{
 	/**
 	 * Affiche le score du joueur
 	 * 
+	 * @return un int qui correspond au score du joueur
 	 */
 	public int score() {
 		return main.cartesValeur();
@@ -102,6 +116,7 @@ public class Joueur extends Thread{
 	/**
 	 * Retourne true si la main du joueur vaut Blackjack
 	 * 
+	 * @ return un boolean indiquant si le joueur a fait blackjack ou non
 	 */
 	public boolean blackjack() {
 		return main.isBlackjack();

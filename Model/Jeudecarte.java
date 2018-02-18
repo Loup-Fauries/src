@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 /**
- * Classe représentant un paquet de carte
+ * Classe représentant un paquet de cartes
  * 
  * @version: 1.0
  */
@@ -41,6 +41,8 @@ public class Jeudecarte {
 	/**
 	 * Supprime une carte du paquet
 	 * 
+	 * @param i
+	 * 			il s'agit de la ième carte que l'on veut supprimer
 	 */
 	public void removeCarte(int i){
 		carteEnJeu.remove(i);
@@ -49,6 +51,10 @@ public class Jeudecarte {
 	/**
 	 * Retourne la ième carte du paquet
 	 * 
+	 * @param i
+	 * 			il s'agit de la ième carte du paquet 
+	 * 
+	 * @return une instance de Carte, qui correspond à la ième carte du paquet
 	 */
 	public Carte getCarte(int i){
 		return carteEnJeu.get(i);
@@ -57,6 +63,8 @@ public class Jeudecarte {
 	/**
 	 * Ajoute une carte au paquet
 	 * 
+	 * @param addCarte
+	 * 					Carte que l'on veut ajouter au paquet
 	 */
 	public void addCarte(Carte addCarte){
 		carteEnJeu.add(addCarte);
@@ -65,6 +73,7 @@ public class Jeudecarte {
 	/**
 	 * Tire la première carte du paquet (donc la supprime du paquet)
 	 * 
+	 * @return une instance de Carte, qui correspond à la Carte que l'on vient de tirer
 	 */
 	public Carte tirer(){
 		return carteEnJeu.remove(0);
@@ -73,6 +82,7 @@ public class Jeudecarte {
 	/**
 	 * Tire une carte face visible
 	 * 
+	 * @return une instance de Carte, qui correspond à la carte que l'on vient de tirer face visible
 	 */
 	public Carte tirerVisible() {
 		Carte carte = tirer();
@@ -83,6 +93,7 @@ public class Jeudecarte {
 	/**
 	 * Affiche toutes les cartes du paquet
 	 * 
+	 * @return un String qui correspond aux cartes qui composent le paquet
 	 */
 	public String toString(){
 		String listedecarte = "";
@@ -93,8 +104,10 @@ public class Jeudecarte {
 	}
 	
 	/**
-	 * Déplace le paquet de carte dans un autre
+	 * Déplace le paquet de cartes dans un autre
 	 * 
+	 * @param jeu
+	 * 				paquet vers lequel on souhaite déplacer le paquet de cartes
 	 */
 	public void moveAllToJeu(Jeudecarte jeu){
 		int taille = carteEnJeu.size();
@@ -105,16 +118,18 @@ public class Jeudecarte {
 	}
 	
 	/**
-	 * Retourne la taille du paquet de carte
+	 * Retourne la taille du paquet de cartes
 	 * 
+	 * @return un int qui correspond au nombre de carte dans le paquet
 	 */
 	public int tailleduJeu(){
 		return carteEnJeu.size();
 	}
 	
 	/**
-	 * Retourne la valeur de toutes les cartes du paquet
+	 * Retourne la valeur totale du paquet de cartes
 	 * 
+	 * @return un int qui correspond à la valeur totale du paquet de cartes
 	 */
 	public int cartesValeur(){
 		int valeur = 0;

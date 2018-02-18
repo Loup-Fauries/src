@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Classe représentant le croupier et la table
- * dans cette version leur rôle ne sont pas dissocier
+ * dans cette version leur rôle ne sont pas dissociés
  * 
  * @version: 1.0
  */
@@ -27,8 +27,8 @@ public class Croupier extends Thread{
 	
 	/**
 	 * Initialisation d'une partie:
-	 * Envoie d'un messages aux joueurs
-	 * Création d'un jeu de carte et mélange de ce dernier
+	 * Envoie d'un message aux joueurs
+	 * Création d'un jeu de cartes et mélange de ce dernier
 	 * Premier tirage de carte pour tous les joueurs
 	 * 
 	 */
@@ -54,6 +54,12 @@ public class Croupier extends Thread{
 	 * Si Hit alors on lui donne une autre carte et vérifie son score
 	 * Si Stand le joueur est couché et attendra la fin de la partie
 	 * 
+	 * @param reponse
+	 * 					réponse du joueur (Hit ou Stand)
+	 * @param joueur
+	 * 					joueur dont on traite la réponse
+	 * 
+	 * @return un boolean qui correspond à la réponse du joueur
 	 */
 	public boolean traiterReponse(String reponse, Joueur joueur) {
 		switch(reponse) {
@@ -83,6 +89,7 @@ public class Croupier extends Thread{
 	 * On informe le joueur que c'est son tour
 	 * Puis on attend sa réponse
 	 * 
+	 * @return un int qui correspond au nombre de joueurs couché à la fin d'un tour
 	 */
 	public int unTour() {
 		int nbCouche = 0;
@@ -102,8 +109,8 @@ public class Croupier extends Thread{
 	
 	/**
 	 * Déroulement d'une partie:
-	 * Envoie aux joueurs leur main de départ, et calcul des scores initiaux
-	 * Joue tour par tour jusqu'à ce que la partie soit terminé
+	 * Envoie aux joueurs leur main de départ, et calcule des scores initiaux
+	 * Joue tour par tour jusqu'à ce que la partie soit terminée
 	 * Indique qui a gagné et perdu face au croupier
 	 * 
 	 */

@@ -16,6 +16,10 @@ public class Accepter_clients implements Runnable {
 	   private ArrayList<Socket> sockets;
 	   private int nbClientsMax;
 	   
+	   /**
+	    * Constructeur de la classe
+	    * 
+	    */
 		public Accepter_clients(ServerSocket s, int nbClientsMax){
 			serverSocket = s;
 			this.nbClientsMax = nbClientsMax;
