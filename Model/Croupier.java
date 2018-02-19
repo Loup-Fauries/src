@@ -152,16 +152,16 @@ public class Croupier extends Thread{
 			joueur.envoyer("Score personnel: " + scoreJoueur
 					+ "\nScore casino : " + scoreDealer );
 			if(scoreDealer > 21) {
-				joueur.envoyer("Le casino a dépasser 21, vous avez gagnez.");
+				joueur.envoyer("Le casino a dépassé 21, vous avez gagné.");
 				continue;
 			}
 			if(scoreJoueur > scoreDealer) {
-				joueur.envoyer("Vous avez gagnez.");
+				joueur.envoyer("Vous avez gagné.");
 			}else if(scoreJoueur < scoreDealer) {
 				joueur.envoyer("Vous avez perdu.");
 			}else {
 				if(joueur.blackjack() && !mainDealer.isBlackjack()) {
-					joueur.envoyer("Vous avez gagnez et fait un BlackJack.");
+					joueur.envoyer("Vous avez gagné et fait un BlackJack.");
 				}else if(!joueur.blackjack() && mainDealer.isBlackjack()) {
 					joueur.envoyer("Vous avez perdu et le casino a fait un BlackJack.");
 				}else {
