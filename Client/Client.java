@@ -14,7 +14,7 @@ public class Client {
 	/**
 	 * Déroulement d'une partie côté client:
 	 * Connexion au serveur
-	 * Affichage tour par tour de la main du client et du croupier
+	 * Affichage tour par tour de la main du client et du Croupier
 	 * Choix du client, Hit ou Stand
 	 * Affichage final, Gagnant et Perdant
 	 * Déconnexion
@@ -29,6 +29,7 @@ public class Client {
 	    boolean coucher = false;
 	    
 		System.out.println("Bonjour,\n Bienvenue au casino.\n Votre partie va bientôt commencer.");									//Action
+		//System.out.println("Bonjour,\n Bienvenue au casino.\n \n Menu:\n  1 - Rejoindre une table\n  2 - Table personnalisée");
 
 	    try {
 	    	socket = new Socket("localhost",2009);
