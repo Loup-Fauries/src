@@ -1,7 +1,10 @@
 package Model;
 
-import java.util.ArrayList;
-
+/**
+ * Classe représentant une carte
+ * 
+ * @version: 1.0
+ */
 public class Carte {
 	private boolean visible = false;
 	private final Couleur couleur;
@@ -47,33 +50,68 @@ public class Carte {
 		}
 	}
 	
+	/**
+	 * Permet de retourner une carte
+	 * 
+	 * @param v
+	 * 			valeur que l'on souhaite voir attribuée à l'attribut "visible" d'une carte (true ou false)
+	 */
 	public void setVisible(boolean v) {
 		visible = v;
 	}
 	
+	/**
+	 * Retourne true si la carte est face visible, et false sinon
+	 * 
+	 * @return un boolean indiquant si la carte est face visible ou non 
+	 */
 	public boolean estVisible() {
 		return visible;
 	}
 	
+	/**
+	 * Retourne la valeur de la carte, seulement si la carte est visible
+	 * 
+	 * @return un int qui représente la valeur de la carte
+	 */
 	public int getValeur() {
 		if(estVisible()) return valeur1;
 		return 0;
 	}
 	
+	/**
+	 * retourne la valeur de l'As
+	 * 
+	 * @param total
+	 * 				Correspond à la valeur de la main
+	 * 
+	 * @return un int correspondant à la valeur que prendra l'As
+	 */
 	public int getValeurAs(int total) {
-		if(estVisible()){
+		if(estVisible() && Face.AS.equals(face)){
 			if(total<10){
-				return 11;
+				return valeur2;
 			}
-			return 1;
+			return valeur1;
 		}
 		return 0;
 	}
 	
+	/**
+	 * Retourne la face(1,2,3...Valet...) de la carte
+	 * 
+	 * @return une instance de Face, qui correspond à la face de la carte
+	 */
 	public Face getFace(){
 		return face;
 	}
 	
+	/**
+	 * Affiche les propriétés de la carte (Face et Couleur)
+	 * Seulement si la carte est face visible, sinon affiche "Carte face cachée"
+	 * 
+	 * @return un String composé de la face et de la couleur de la carte
+	 */
 	@Override
 	public String toString() {
 		if(estVisible()) {
