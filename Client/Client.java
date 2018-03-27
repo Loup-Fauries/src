@@ -60,11 +60,23 @@ public class Client {
 				}
 				fluxSortieSocket.println(reponse);
 
-				System.out.println(fluxEntreeSocket.readLine());
+				System.out.println("\n \n \n \n \n \n \n \n \n \n \n" + fluxEntreeSocket.readLine());
 
 				
 			}
 			else {														//Table Personnalisée
+				System.out.println("\nCombien de joueurs peuvent jouer autour de votre table ?");
+				reponse = fluxEntreeStandard.readLine();
+				fluxSortieSocket.println(reponse);
+
+				System.out.println("\nQuel nom voulez vous donnez à votre table ?");
+				reponse = fluxEntreeStandard.readLine();
+				fluxSortieSocket.println(reponse);
+
+				System.out.println("\nQuelle est la mise minimal de votre table ?");
+				reponse = fluxEntreeStandard.readLine();
+				fluxSortieSocket.println(reponse);
+				
 				System.out.println("\nMalheureusement cette option n'est pas encore disponible");
 		    	socket.close();
 		    	return;
