@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 public class Table extends Thread{
 	private String nom;
+	private int tailleTable;
 	protected Croupier croupier;
 	protected ArrayList<Joueur> joueurs;
 	
@@ -18,16 +19,45 @@ public class Table extends Thread{
 	 * Constructeur de la classe 
 	 * 
 	 */
-	public Table(ArrayList<Socket> sockets) {
-		joueurs = new ArrayList<Joueur>(sockets.size());
-		for (Socket socket : sockets) {
-			joueurs.add(new Joueur(socket));
-		}
+	
+	public Table(String nom, int taille) {
+		this.nom = nom;
+		this.tailleTable = taille;
+		croupier = new Croupier();
+		joueurs = new ArrayList<Joueur>(taille);
 	}
 	
-	public Table(String nom) {
-		this.nom = nom;
-		joueurs = new ArrayList<Joueur>(6);
+	public void ajoutJoueur(Socket socket) {
+		joueurs.add(new Joueur(socket));
+	}
+	
+	public boolean tablePleine() {
+		if (tailleTable == joueurs.size())
+			return true;
+		else {
+			return false;
+		}
+	}
+
+	public int joueurRestant() {
+		return tailleTable-joueurs.size();
+	}
+	
+	public String toString(){
+		String listedecarte = nom;
+		int rest = joueurRestant();
+		if (tablePleine()) {
+			listedecarte += " (pleine)";
+		}
+		else {
+			if (rest==1) {
+				listedecarte += " (1 place restante)";
+			}
+			else {
+				listedecarte += " (" + rest + " places restantes)";
+			}
+		}
+		return listedecarte;
 	}
 	
 	/**
@@ -38,20 +68,16 @@ public class Table extends Thread{
 	 * 
 	 */
 	public void initialiserPartie() {
+		croupier.initialisation();
 		for (Joueur joueur : joueurs) {
+			joueur.envoyer(" Bienvenu autour de la table " + nom);
 			joueur.envoyer("Okcommencer");
 		}
-		//cartejouer = new Jeudecarte();
-		//cartejouer.creationpaquet();
-		//cartejouer.melanger();
 		for(int i = 0; i != 2; i++) {
 			for (Joueur joueur : joueurs) {
 				joueur.ajouterCarte(croupier.TirerCarteVisible());
 			}
 		}
-		//mainDealer = new Main();
-		//mainDealer.ajouter(cartejouer.tirerVisible());
-		//mainDealer.ajouter(cartejouer.tirer());
 		croupier.TirageMainDealer();
 	}
 	
@@ -70,9 +96,9 @@ public class Table extends Thread{
 	public boolean traiterReponse(String reponse, Joueur joueur) {
 		switch(reponse) {
 		case "1":
-			joueur.ajouterCarte(cartejouer.tirerVisible());
+			joueur.ajouterCarte(croupier.TirerCarteVisible());
 			joueur.envoyer(joueur.afficherMain());
-			joueur.envoyer(mainDealer.toString());
+			joueur.envoyer(croupier.retourMain());
 			if(joueur.score() >= 21) {
 				joueur.envoyer("stand");
 				joueur.setCouche(true);
@@ -139,12 +165,12 @@ public class Table extends Thread{
 			fini = (nbCouche == joueurs.size());
 		}
 		
-		mainDealer.retournerCartes();
-		while(mainDealer.cartesValeur() < 17) {
-			mainDealer.ajouter(cartejouer.tirerVisible());
+		croupier.mainDealer.retournerCartes();
+		while(croupier.mainDealer.cartesValeur() < 17) {
+			croupier.mainDealer.ajouter(croupier.TirerCarteVisible());
 		}
 		
-		int scoreDealer = mainDealer.cartesValeur();
+		int scoreDealer = croupier.mainDealer.cartesValeur();
 		for (Joueur joueur : joueurs) {
 			int scoreJoueur = joueur.score();
 			if(scoreJoueur > 21) {
@@ -154,7 +180,7 @@ public class Table extends Thread{
 			}
 			joueur.envoyer("\nLes jeux sont faits, voici les cartes."
 					+ "\nCarte dans votre main : " + joueur.afficherMain()
-					+ "\n Voici la main du casino : " + mainDealer.toString() + "\n");
+					+ "\n Voici la main du casino : " + croupier.retourMain() + "\n");
 			joueur.envoyer("Score personnel: " + scoreJoueur
 					+ "\nScore casino : " + scoreDealer );
 			if(scoreDealer > 21) {
@@ -166,9 +192,9 @@ public class Table extends Thread{
 			}else if(scoreJoueur < scoreDealer) {
 				joueur.envoyer("Vous avez perdu.");
 			}else {
-				if(joueur.blackjack() && !mainDealer.isBlackjack()) {
+				if(joueur.blackjack() && !croupier.mainDealer.isBlackjack()) {
 					joueur.envoyer("Vous avez gagné et fait un BlackJack.");
-				}else if(!joueur.blackjack() && mainDealer.isBlackjack()) {
+				}else if(!joueur.blackjack() && croupier.mainDealer.isBlackjack()) {
 					joueur.envoyer("Vous avez perdu et le casino a fait un BlackJack.");
 				}else {
 					joueur.envoyer("Vous avez fait une égalité.");

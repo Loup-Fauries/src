@@ -4,8 +4,8 @@ public class TablePerso extends Table{
 
 	private Joueur propriétaire;
 	
-	public TablePerso(String nom, Joueur proprio) {
-		super(nom);
+	public TablePerso(String nom, int taille, Joueur proprio) {
+		super(nom, taille);
 		propriétaire = proprio;
 	}
 	
@@ -31,7 +31,7 @@ public class TablePerso extends Table{
 		destTable();
 		for (Joueur joueur : joueurs) {
 			joueur.envoyer(joueur.afficherMain());
-			joueur.envoyer(mainDealer.toString());
+			joueur.envoyer(croupier.mainDealer.toString());
 			if(joueur.score() >= 21) {
 				joueur.envoyer("stand");
 				joueur.setCouche(true);
@@ -47,12 +47,12 @@ public class TablePerso extends Table{
 			fini = (nbCouche == joueurs.size());
 		}
 		destTable();
-		mainDealer.retournerCartes();
-		while(mainDealer.cartesValeur() < 17) {
-			mainDealer.ajouter(cartejouer.tirerVisible());
+		croupier.mainDealer.retournerCartes();
+		while(croupier.mainDealer.cartesValeur() < 17) {
+			croupier.mainDealer.ajouter(croupier.TirerCarteVisible());
 		}
 		
-		int scoreDealer = mainDealer.cartesValeur();
+		int scoreDealer = croupier.mainDealer.cartesValeur();
 		for (Joueur joueur : joueurs) {
 			int scoreJoueur = joueur.score();
 			if(scoreJoueur > 21) {
@@ -62,7 +62,7 @@ public class TablePerso extends Table{
 			}
 			joueur.envoyer("\nLes jeux sont faits, voici les cartes."
 					+ "\nCarte dans votre main : " + joueur.afficherMain()
-					+ "\n Voici la main du casino : " + mainDealer.toString() + "\n");
+					+ "\n Voici la main du casino : " + croupier.mainDealer.toString() + "\n");
 			joueur.envoyer("Score personnel: " + scoreJoueur
 					+ "\nScore casino : " + scoreDealer );
 			if(scoreDealer > 21) {
@@ -74,9 +74,9 @@ public class TablePerso extends Table{
 			}else if(scoreJoueur < scoreDealer) {
 				joueur.envoyer("Vous avez perdu.");
 			}else {
-				if(joueur.blackjack() && !mainDealer.isBlackjack()) {
+				if(joueur.blackjack() && !croupier.mainDealer.isBlackjack()) {
 					joueur.envoyer("Vous avez gagné et fait un BlackJack.");
-				}else if(!joueur.blackjack() && mainDealer.isBlackjack()) {
+				}else if(!joueur.blackjack() && croupier.mainDealer.isBlackjack()) {
 					joueur.envoyer("Vous avez perdu et le casino a fait un BlackJack.");
 				}else {
 					joueur.envoyer("Vous avez fait une égalité.");
