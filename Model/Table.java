@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class Table extends Thread{
 	private String nom;
 	private int tailleTable;
+	public int mise;
 	protected Croupier croupier;
 	protected ArrayList<Joueur> joueurs;
 	
@@ -20,9 +21,10 @@ public class Table extends Thread{
 	 * 
 	 */
 	
-	public Table(String nom, int taille) {
+	public Table(String nom, int taille, int mise) {
 		this.nom = nom;
 		this.tailleTable = taille;
+		this.mise = mise;
 		croupier = new Croupier();
 		joueurs = new ArrayList<Joueur>(taille);
 	}
@@ -44,7 +46,7 @@ public class Table extends Thread{
 	}
 	
 	public String toString(){
-		String listedecarte = nom;
+		String listedecarte = nom + " - " + mise + " jetons";
 		int rest = joueurRestant();
 		if (tablePleine()) {
 			listedecarte += " (pleine)";
@@ -58,6 +60,13 @@ public class Table extends Thread{
 			}
 		}
 		return listedecarte;
+	}
+	
+	public void controle(Joueur joueur) {
+		if (joueur.solde() < mise) {
+			joueur.envoyer("Vous n'avez plus suffisamment de jeton pour jouer à cette table.");
+			joueur.deconnexion();
+		}
 	}
 	
 	/**
@@ -176,6 +185,8 @@ public class Table extends Thread{
 			if(scoreJoueur > 21) {
 				joueur.envoyer("\nLes jeux sont fini.\nScore personnel: "+ joueur.score()
 						+ "\nVous avez dépasser 21, vous avez perdu.");
+				joueur.perdre(mise);
+				controle(joueur);
 				continue;
 			}
 			joueur.envoyer("\nLes jeux sont faits, voici les cartes."
@@ -185,21 +196,29 @@ public class Table extends Thread{
 					+ "\nScore casino : " + scoreDealer );
 			if(scoreDealer > 21) {
 				joueur.envoyer("Le casino a dépassé 21, vous avez gagné.");
+				joueur.gagner(mise);
 				continue;
 			}
 			if(scoreJoueur > scoreDealer) {
 				joueur.envoyer("Vous avez gagné.");
+				joueur.gagner(mise);
 			}else if(scoreJoueur < scoreDealer) {
 				joueur.envoyer("Vous avez perdu.");
+				joueur.perdre(mise);
+				controle(joueur);
 			}else {
 				if(joueur.blackjack() && !croupier.mainDealer.isBlackjack()) {
 					joueur.envoyer("Vous avez gagné et fait un BlackJack.");
+					joueur.gagner(mise);
 				}else if(!joueur.blackjack() && croupier.mainDealer.isBlackjack()) {
 					joueur.envoyer("Vous avez perdu et le casino a fait un BlackJack.");
+					joueur.perdre(mise);
+					controle(joueur);
 				}else {
 					joueur.envoyer("Vous avez fait une égalité.");
 				}
 			}
+			joueur.envoyer("Votre solde: "+ joueur.solde() + " jetons");
 		}
 		for (Joueur joueur : joueurs) {
 			joueur.deconnexion();

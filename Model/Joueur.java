@@ -14,6 +14,7 @@ import java.net.Socket;
 public class Joueur extends Thread{
 	private boolean couche;
 	private Main main;
+	private int nbJeton;
 	private Socket service;
 	private PrintStream     fluxSortieSocket;
 	private BufferedReader  fluxEntreeSocket;
@@ -26,6 +27,7 @@ public class Joueur extends Thread{
 		this.service= service;
 		this.couche = false;
 		this.main = new Main();
+		this.nbJeton = 100;
 	}
 	
 	/**
@@ -114,6 +116,15 @@ public class Joueur extends Thread{
 	}
 	
 	/**
+	 * Affiche le solde du joueur
+	 * 
+	 * @return un int qui correspond au solde du joueur
+	 */
+	public int solde() {
+		return nbJeton;
+	}
+	
+	/**
 	 * Retourne true si la main du joueur vaut Blackjack
 	 * 
 	 * @ return un boolean indiquant si le joueur a fait blackjack ou non
@@ -121,6 +132,15 @@ public class Joueur extends Thread{
 	public boolean blackjack() {
 		return main.isBlackjack();
 	}
+	
+	public void gagner(int mise){
+		nbJeton = nbJeton + mise*2;
+	}
+	
+	public void perdre(int mise){
+		nbJeton = nbJeton - mise;
+	}
+	
 	
 	/**
 	 * Permet de déconnecter un joueur
