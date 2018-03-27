@@ -32,50 +32,11 @@ public class Accepter_clients implements Runnable {
 			socket = null;
 		}
 		
-		/**
-		 * Attends qu'un certain nombre de clients se connectent
-		 * 
-		 */
-		private void accueilJoueur() {
-			String reponse;
-			socket = null;
-			try {
-				socket = serverSocket.accept();
-    			System.out.println(" Un nouveau client s'est connecté !");
-    			reponse = recevoir(socket);
-    			if(reponse.equals("1")) {
-        			System.out.println("  Celui ci désire rejoindre une table existante");
-    				envoieTable(socket);
-    				reponse = recevoir(socket);
-    				
-        			Tables.get(Integer.parseInt(reponse)-1).ajoutJoueur(socket);
-        			Tables.get(Integer.parseInt(reponse)-1).start();
-    			}
-    			else {
-        			System.out.println("  Celui ci désire créer une partie personnaliséé");
-    			}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		/**
-		 * Attente de joueurs puis affectation des joueurs à une Table
-		 * puis lancement de la partie
-		 * 
-		 */
-		public void run() {
-			creationTables(5);
-			
-        	while(true) {
-        		accueilJoueur();
-        	}
-		}
 		
 		public void creationTables(Integer nbTables) {
 			Tables = new ArrayList<Table>(nbTables);
-			for (int i = 0; i<nbTables; i++) {
-				Tables.add(new Table("Perma "+i, nbClientsMax));
+			for (int i = 1; i<=nbTables; i++) {
+				Tables.add(new Table("Perma "+i, nbClientsMax, 10));
 			}
 		}
 		
@@ -102,13 +63,13 @@ public class Accepter_clients implements Runnable {
 			return listedetable;
 		}
 		
-		public void AjoutTable(String nom, int taille, Joueur proprio) {
-			Tables.add(new TablePerso(nom, taille, proprio));
+		public void AjoutTable(String nom, int taille, int mise, Joueur proprio) {
+			Tables.add(new TablePerso(nom, taille, mise, proprio));
 		}
 		
 		
 		/**
-		 * Envoie d'un message au joueur
+		 * Envoie d'un message au client
 		 * 
 		 * @param chaine
 		 * 					Correspond au message à envoyer
@@ -125,7 +86,7 @@ public class Accepter_clients implements Runnable {
 		}
 		
 		/**
-		 * Réception d'un message envoyé par un joueur
+		 * Réception d'un message envoyé par un client
 		 * 
 		 * @return une chaine de caractères, correspond au message reçu
 		 */
@@ -146,8 +107,54 @@ public class Accepter_clients implements Runnable {
 		}
 		
 		
+		/**
+		 * acceuil le client en le faisant rejoindre une table
+		 * public ou privée
+		 * 
+		 */
+		private void accueilJoueur() {
+			String reponse, nbj, nom, mise;
+			socket = null;
+			try {
+				socket = serverSocket.accept();
+    			System.out.println(" Un nouveau client s'est connecté !");
+    			reponse = recevoir(socket);
+    			if(reponse.equals("1")) {
+        			System.out.println("  Il désire rejoindre une table existante");
+    				envoieTable(socket);
+    				reponse = recevoir(socket);
+    				
+        			Tables.get(Integer.parseInt(reponse)-1).ajoutJoueur(socket);
+        			Tables.get(Integer.parseInt(reponse)-1).start();
+    			}
+    			else {
+        			System.out.println("  Il désire créer une partie personnaliséé");
+
+    				nbj = recevoir(socket);
+    				nom = recevoir(socket);
+    				mise = recevoir(socket);
+    				//AjoutTable(nom, taille, mise, );
+        			//Tables.get(Tables.size()-1).ajoutJoueur(socket);
+        			//Tables.get(Tables.size()-1).start();
+    			}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		
+		/**
+		 * Création des tables initiales,
+		 * puis acceuil des joueurs dans le casino
+		 * 
+		 */
+		public void run() {
+			creationTables(5);
+			
+        	while(true) {
+        		accueilJoueur();
+        	}
+		}
 		
 		
 		
