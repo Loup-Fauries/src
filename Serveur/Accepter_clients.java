@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
+import Model.Carte;
 import Model.Joueur;
 import Model.Table;
 import Model.TablePerso;
@@ -15,9 +16,11 @@ import Model.TablePerso;
  */
 public class Accepter_clients implements Runnable {
 	   private ServerSocket serverSocket;
-	   private ArrayList<Socket> sockets;
+	   private Socket socket;
 	   private int nbClientsMax;
 	   private ArrayList<Table> Tables;
+	   private PrintStream     fluxSortieSocket;
+	   private BufferedReader  fluxEntreeSocket;
 	   //
 	   /**
 	    * Constructeur de la classe
@@ -26,25 +29,34 @@ public class Accepter_clients implements Runnable {
 		public Accepter_clients(ServerSocket s, int nbClientsMax){
 			serverSocket = s;
 			this.nbClientsMax = nbClientsMax;
-			 sockets = new ArrayList<Socket>(nbClientsMax);
+			socket = null;
 		}
 		
 		/**
 		 * Attends qu'un certain nombre de clients se connectent
 		 * 
 		 */
-		private void attendreConnexions() {
-			sockets.clear();
-			for(int i=0; i<nbClientsMax; i++) {
-				Socket socket = null;
-    			try {
-    				socket = serverSocket.accept();
-    				sockets.add(socket);
-        			System.out.println(" Un nouveau client s'est connecté !");
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-    		}
+		private void accueilJoueur() {
+			String reponse;
+			socket = null;
+			try {
+				socket = serverSocket.accept();
+    			System.out.println(" Un nouveau client s'est connecté !");
+    			reponse = recevoir(socket);
+    			if(reponse.equals("1")) {
+        			System.out.println("  Celui ci désire rejoindre une table existante");
+    				envoieTable(socket);
+    				reponse = recevoir(socket);
+    				
+        			Tables.get(Integer.parseInt(reponse)-1).ajoutJoueur(socket);
+        			Tables.get(Integer.parseInt(reponse)-1).start();
+    			}
+    			else {
+        			System.out.println("  Celui ci désire créer une partie personnaliséé");
+    			}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		/**
@@ -53,25 +65,90 @@ public class Accepter_clients implements Runnable {
 		 * 
 		 */
 		public void run() {
-			int i=1;
+			creationTables(5);
+			
         	while(true) {
-    			System.out.println("\nTable n°"+i+":");
-        		attendreConnexions();
-
-        		Table tTable = new Table(sockets);
-        		tTable.start();
-        		i++;
+        		accueilJoueur();
         	}
 		}
 		
 		public void creationTables(Integer nbTables) {
 			Tables = new ArrayList<Table>(nbTables);
 			for (int i = 0; i<nbTables; i++) {
-				Tables.add(new Table("Perma"+i));
+				Tables.add(new Table("Perma "+i, nbClientsMax));
 			}
 		}
 		
-		public void AjoutTable(String nom, Joueur proprio) {
-			Tables.add(new TablePerso(nom, proprio));
+		public void envoieTable(Socket service) {
+			String taille = Integer.toString(Tables.size());
+			int i=1;
+
+			envoyer(taille, service);
+			
+			for(Table table : Tables){
+				envoyer("  "+i+": "+table.toString(), service);
+				i++;
+			}
+			
 		}
+		
+		public String listeTable(){
+			String listedetable = "";
+			int i=1;
+			for(Table table : Tables){
+				listedetable += i + ": " + table.toString();
+				i++;
+			}
+			return listedetable;
+		}
+		
+		public void AjoutTable(String nom, int taille, Joueur proprio) {
+			Tables.add(new TablePerso(nom, taille, proprio));
+		}
+		
+		
+		/**
+		 * Envoie d'un message au joueur
+		 * 
+		 * @param chaine
+		 * 					Correspond au message à envoyer
+		 */
+		public void envoyer(String chaine, Socket service) {
+			if (fluxSortieSocket == null) {
+				try {
+					fluxSortieSocket = new PrintStream(service.getOutputStream());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			fluxSortieSocket.println(chaine);
+		}
+		
+		/**
+		 * Réception d'un message envoyé par un joueur
+		 * 
+		 * @return une chaine de caractères, correspond au message reçu
+		 */
+		public String recevoir(Socket service) {
+			if (fluxEntreeSocket == null) {
+				try {
+					fluxEntreeSocket = new BufferedReader (new InputStreamReader(service.getInputStream()));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			try {
+				return fluxEntreeSocket.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return "J'ai rien reçu";
+		}
+		
+		
+		
+		
+		
+		
+		
 }
