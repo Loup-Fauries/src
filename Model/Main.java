@@ -103,4 +103,8 @@ public class Main {
 	public boolean isBlackjack() {
 		return (tailleMain() == 2 && cartesValeur() == 21);
 	}
+	
+	public void vider() {
+		main.clear();
+	}
 }
